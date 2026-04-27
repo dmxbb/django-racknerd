@@ -1,15 +1,19 @@
 #!/bin/bash
 
-# 进入项目目录
+set -e
+
 cd /opt/www
 
-echo "==================== 开始拉取代码 ===================="
+echo "✅ 拉取最新代码..."
 git pull
 
-echo "==================== 重启 Gunicorn ===================="
-systemctl restart gunicorn
+echo "✅ 安装依赖&迁移静态资源..."
+source venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py collectstatic --noinput
 
-echo "==================== 重启 Nginx ===================="
-systemctl restart nginx
+echo "✅ 优雅重载 Gunicorn（无中断）"
+systemctl reload gunicorn
 
 echo "✅ 部署完成！"
