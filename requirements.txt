@@ -1,5 +1,5 @@
 asgiref==3.11.1
-Django==6.0.4
+Django==5.0
 django-redis==6.0.0
 redis==7.4.0
 sqlparse==0.5.5
